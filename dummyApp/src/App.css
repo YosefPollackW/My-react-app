@@ -5,8 +5,15 @@
 
 .product {
   border: 1px solid #ddd;
-  margin-bottom: 15px;
   padding: 10px;
   border-radius: 5px;
-  background-color: #f9f9f9;
+  background-color: #fcd8d8;
+  height: 500px;
+  width: 300px;
+}
+
+.products {
+ display: flex;
+  flex-wrap: wrap;
+  align-content: space-around;
 }
