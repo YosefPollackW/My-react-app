@@ -16,20 +16,20 @@ interface ApiResponse {
 
 const ProductGallery: React.FC = () => {
     
-      const [json, setJson] = useState<ProductType[]>([]);
+      const [data, setData] = useState<ProductType[]>([]);
     
       useEffect(() => {
         fetch('https://dummyjson.com/products')
           .then(res => res.json())
           .then((data: ApiResponse) => {
+            setData(data.products);
             console.log(data);
-            setJson(data.products);
           })
           .catch(err => console.error("Error fetching data:", err));
       }, []);
     return (
          <div className='products'>
-        {json.map((product) => (
+        {data.map((product) => (
           <Product
             key={product.id}
             title={product.title}

@@ -1,4 +1,5 @@
 import React from 'react';
+import '../App.css';
 
 interface ProductProps {
   title: string;
@@ -9,9 +10,10 @@ interface ProductProps {
 const Product: React.FC<ProductProps> = ({ title, description, image }) => {
   return (
     <div className="product">
-      <h2>{title}</h2>
+      <h5>{title}</h5>
+      <img src={image} alt={title} className='images'/>
       <p>{description}</p>
-      <img src={image} alt={title} />
+      
     </div>
   );
 }
