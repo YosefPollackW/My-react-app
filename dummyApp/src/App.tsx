@@ -1,5 +1,6 @@
 import './App.css';
-import Product from './components/Product';
+// import Product from './components/Product';
+import ProductGallery from './components/ProductGallery'
 import { useState, useEffect } from "react";
 
 interface ProductType {
@@ -14,22 +15,23 @@ interface ApiResponse {
 }
 
 function App() {
-  const [json, setJson] = useState<ProductType[]>([]);
+  // const [json, setJson] = useState<ProductType[]>([]);
 
-  useEffect(() => {
-    fetch('https://dummyjson.com/products')
-      .then(res => res.json())
-      .then((data: ApiResponse) => {
-        console.log(data);
-        setJson(data.products);
-      })
-      .catch(err => console.error("Error fetching data:", err));
-  }, []);
+  // useEffect(() => {
+  //   fetch('https://dummyjson.com/products')
+  //     .then(res => res.json())
+  //     .then((data: ApiResponse) => {
+  //       console.log(data);
+  //       setJson(data.products);
+  //     })
+  //     .catch(err => console.error("Error fetching data:", err));
+  // }, []);
 
   return (
     <div className="App">
       <h1>Product List</h1>
-      <div className='products'>
+      <ProductGallery/>
+      {/* <div className='products'>
         {json.map((product) => (
           <Product
             key={product.id}
@@ -38,7 +40,7 @@ function App() {
             image={product.thumbnail}
           />
         ))}
-      </div>
+      </div> */}
     </div>
   );
 }
