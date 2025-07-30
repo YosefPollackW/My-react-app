@@ -1,11 +1,11 @@
 import React from 'react';
 import '../App.css';
 
-interface ProductProps {
+export interface ProductProps {
   title: string;
   description: string;
   image: string;
-}
+}  
 
 const Product: React.FC<ProductProps> = ({ title, description, image }) => {
   return (
