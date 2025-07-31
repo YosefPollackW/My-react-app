@@ -3,16 +3,16 @@ import '../App.css';
 
 export interface ProductProps {
   title: string;
-  description: string;
+  price: number;
   image: string;
 }  
 
-const Product: React.FC<ProductProps> = ({ title, description, image }) => {
+const Product: React.FC<ProductProps> = ({ title, price, image }) => {
   return (
     <div className="product">
       <h5>{title}</h5>
       <img src={image} alt={title} className='images'/>
-      <p>{description}</p>
+      <p>{price}</p>
       
     </div>
   );

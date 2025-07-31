@@ -50,7 +50,7 @@ const ProductGallery: React.FC = () => {//this is how to create a componnent in 
           <Product
             image={product.thumbnail}
             title={product.title}
-            description={product.description}
+            price={product.price}
           />
         </div>
       ))}
@@ -65,3 +65,6 @@ const ProductGallery: React.FC = () => {//this is how to create a componnent in 
   )
 }
 export default ProductGallery;
+//git add .
+//git commit -m ""
+//git push origin main
