@@ -2,6 +2,7 @@ import React from "react";
 import Product from "./Product";
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
+import EditModal from "./EditModal";
 //to be able to use the data from the api request i have to create a interface that gives types to the values i get
 export interface ProductProps {
   id: number;
@@ -23,6 +24,7 @@ const ProductGallery: React.FC = () => {//this is how to create a componnent in 
   const [data, setData] = useState<ProductProps[]>([]);//the generic is for the value the state holds, and the empty array is because later it will be an ful array there fron the data i get
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [fetchingError, setFetchingError] = useState<boolean>(false);
 
   const handleProductClick = (product: ProductProps) => {
     setSelectedProduct(product);
@@ -34,6 +36,10 @@ const ProductGallery: React.FC = () => {//this is how to create a componnent in 
     setSelectedProduct(null); //closing the modal
   };
 
+  const openEdit = () => {
+
+  };
+
   useEffect(() => {
     fetch('https://dummyjson.com/products')
       .then(res => res.json())
@@ -41,8 +47,11 @@ const ProductGallery: React.FC = () => {//this is how to create a componnent in 
         setData(data.products);//this updates the state, and instead an empty array as above, it recives the data.
         console.log(data);
       })
-      .catch(err => console.error("Error fetching data:", err));
+      .catch(err => console.error("Error fetching data:", err)).then(()=>setFetchingError(true));
   }, []);
+  if (!fetchingError) return (
+    <div><p>loading</p></div>
+  )
   return (
     <div className='products'>
       {data.map((product) => (
@@ -56,11 +65,13 @@ const ProductGallery: React.FC = () => {//this is how to create a componnent in 
       ))}
       {selectedProduct && (
         <Modal
+          onEdit={openEdit}
           isOpen={modalOpen}
           onClose={closeModal}
           product={selectedProduct}
         />
       )}
+      {selectedProduct&&<EditModal isOpen={true} onSave={()=>{}} product={selectedProduct}/>}
     </div>
   )
 }

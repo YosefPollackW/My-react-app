@@ -3,18 +3,19 @@ import { ProductProps } from './ProductGallery'
 
 interface ModalProps {
     isOpen: boolean;
-    onClose: () => void
+    onClose: () => void;
+    onEdit: () => void;
     product: ProductProps; 
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, product }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, product, onEdit }) => {
     if (!isOpen) return null
 
     return (
 
         <div >
             <button className="close-button" onClick={onClose}>X</button>
-            <h2>{product.title}</h2>
+            <h2>{product.title}        <button className='editButton' onClick={onEdit}>Edit</button></h2>
             <p>${product.price}</p>
             <p>{product.stock}</p>
             <p>{product.category}</p>
