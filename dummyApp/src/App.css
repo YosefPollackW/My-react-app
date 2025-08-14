@@ -25,3 +25,32 @@
 p{
   font-size: 70%;
 }
+/**/
+.modalOpacy {
+  position: fixed;/* makes the position of the modal permannent and over the other componnents*/
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);/*it gives the feeliong that is floating */
+  display: flex;/*puts it in the center using flexbox*/
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  max-width: 400px;
+  width: 90%;
+}
+
+.modalContent input,
+.modalContent textarea {/*makes the content aligned*/
+  width: 100%;
+}
+
+.modalContent textarea {
+  height: 80px;
+}

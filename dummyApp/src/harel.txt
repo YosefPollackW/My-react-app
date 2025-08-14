@@ -1,0 +1,170 @@
+import { useEffect, useState } from "react";
+
+// טייפ איך כל מוצר יראה
+export type Product = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  thumbnail: string;
+  images:string[];
+  category:string
+};
+
+const UseProducts = () => {
+
+  //  const [serch,setserch]=useState('')
+  //  const [selectedCategory,setselectedcategory]=useState('')
+  // סטייט שמחזיק את כל הדאטא מהגייסון ומכניס למערך פרודקט
+  const [data, setData] = useState<Product[]>([]);
+  // סטייט לפתיחת המודל טייפ בוליאן
+  const [open, setOpen] = useState<boolean>(false);
+  // סטייט לבחירת מוצר והצגתו במודל
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);  // שינוי מ- `Product` ל- `Product | null`
+
+  // יוזאפקט להצגת המוצרים כשהקומפוננטה תעלה
+  useEffect(() => {
+    // פונקציה אסינכרונית להבאת המידע מהגייסון
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://dummyjson.com/products");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const jsonData = await response.json();
+        setData(jsonData.products); // setData מתעדכן
+      } catch (error) {
+        console.error("Error fetching data", error); // טיפול בשגיאות
+      }
+    };
+
+    fetchData(); // הפעלת הפונקציה
+  }, []); // Dependency Array מגדיר שהקומפוננטה תרונדר פעם אחת שהיא עולה ולא כל פעם שהסטייט משתנה
+
+  // פונקציה לשמירה של המוצר שנבחר
+  const handleSave = () => {
+    if (!selectedProduct||!selectedProduct.title.trim()){
+      alert("אחד מהשדות אינו מלא")
+    return  } 
+    setData((prev) =>
+      prev.map((item) =>
+        item.id === selectedProduct.id ? selectedProduct : item
+      )
+    );
+    setOpen(false); // סוגר את המודל
+  };
+
+  // פונקציה לפתיחת המודל והצגת המוצר שנבחר
+ const handleclick = (product: Product) => {
+  console.log("Product clicked:", product); // לוודא שהמוצר נבחר
+  setSelectedProduct(product); // עדכון המוצר שנבחר
+  setOpen(true); // פתיחת המודל
+};
+
+// const filterProduct = (products: Product[]): Product[] => {
+//   return products.filter(product => {
+//     const byName = product.title.toLowerCase().includes(serch.toLowerCase());
+//     const byCategory = selectedCategory === '' || product.category === selectedCategory;
+//     return byName && byCategory;
+//   });
+// };
+
+
+  // החזרת הערכים לקומפוננטות אחרות
+  return {
+    data,
+    open,
+    selectedProduct,
+    setOpen,
+    handleSave,
+    handleclick,
+    setSelectedProduct,
+    // filterProduct
+  };
+};
+
+export default UseProducts;
+import { useEffect, useState } from "react";
+
+// טייפ איך כל מוצר יראה
+export type Product = {
+  id: number;
+  title: string;
+  description: string;
+  price: number;
+  thumbnail: string;
+  images:string[];
+  category:string
+};
+
+const UseProducts = () => {
+
+  //  const [serch,setserch]=useState('')
+  //  const [selectedCategory,setselectedcategory]=useState('')
+  // סטייט שמחזיק את כל הדאטא מהגייסון ומכניס למערך פרודקט
+  const [data, setData] = useState<Product[]>([]);
+  // סטייט לפתיחת המודל טייפ בוליאן
+  const [open, setOpen] = useState<boolean>(false);
+  // סטייט לבחירת מוצר והצגתו במודל
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);  // שינוי מ- `Product` ל- `Product | null`
+
+  // יוזאפקט להצגת המוצרים כשהקומפוננטה תעלה
+  useEffect(() => {
+    // פונקציה אסינכרונית להבאת המידע מהגייסון
+    const fetchData = async () => {
+      try {
+        const response = await fetch("https://dummyjson.com/products");
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const jsonData = await response.json();
+        setData(jsonData.products); // setData מתעדכן
+      } catch (error) {
+        console.error("Error fetching data", error); // טיפול בשגיאות
+      }
+    };
+
+    fetchData(); // הפעלת הפונקציה
+  }, []); // Dependency Array מגדיר שהקומפוננטה תרונדר פעם אחת שהיא עולה ולא כל פעם שהסטייט משתנה
+
+  // פונקציה לשמירה של המוצר שנבחר
+  const handleSave = () => {
+    if (!selectedProduct||!selectedProduct.title.trim()){
+      alert("אחד מהשדות אינו מלא")
+    return  } 
+    setData((prev) =>
+      prev.map((item) =>
+        item.id === selectedProduct.id ? selectedProduct : item
+      )
+    );
+    setOpen(false); // סוגר את המודל
+  };
+
+  // פונקציה לפתיחת המודל והצגת המוצר שנבחר
+ const handleclick = (product: Product) => {
+  console.log("Product clicked:", product); // לוודא שהמוצר נבחר
+  setSelectedProduct(product); // עדכון המוצר שנבחר
+  setOpen(true); // פתיחת המודל
+};
+
+// const filterProduct = (products: Product[]): Product[] => {
+//   return products.filter(product => {
+//     const byName = product.title.toLowerCase().includes(serch.toLowerCase());
+//     const byCategory = selectedCategory === '' || product.category === selectedCategory;
+//     return byName && byCategory;
+//   });
+// };
+
+
+  // החזרת הערכים לקומפוננטות אחרות
+  return {
+    data,
+    open,
+    selectedProduct,
+    setOpen,
+    handleSave,
+    handleclick,
+    setSelectedProduct,
+    // filterProduct
+  };
+};

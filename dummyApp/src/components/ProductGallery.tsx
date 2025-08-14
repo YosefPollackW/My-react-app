@@ -2,8 +2,7 @@ import React from "react";
 import Product from "./Product";
 import { useState, useEffect } from "react";
 import Modal from "./Modal";
-import EditModal from "./EditModal";
-//to be able to use the data from the api request i have to create a interface that gives types to the values i get
+
 export interface ProductProps {
   id: number;
   title: string;
@@ -13,45 +12,48 @@ export interface ProductProps {
   stock: number;
   category: string;
 }
-//same thing i said above, the data i get from the json is an array of the interface above
-interface ApiResponse {
-  products: ProductProps[];
-}
 
-
-const ProductGallery: React.FC = () => {//this is how to create a componnent in tsx
-
-  const [data, setData] = useState<ProductProps[]>([]);//the generic is for the value the state holds, and the empty array is because later it will be an ful array there fron the data i get
+const ProductGallery: React.FC = () => {
+  const [data, setData] = useState<ProductProps[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<ProductProps | null>(null);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
-  const [fetchingError, setFetchingError] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
 
   const handleProductClick = (product: ProductProps) => {
     setSelectedProduct(product);
-    setModalOpen(true); //openning the modal
+    setModalOpen(true);
   };
 
   const closeModal = () => {
     setModalOpen(false);
-    setSelectedProduct(null); //closing the modal
+    setSelectedProduct(null);
   };
 
-  const openEdit = () => {
-
+  const handleSave = (updatedProduct: ProductProps) => {
+    setData(prevData => 
+      prevData.map(product => 
+        product.id === updatedProduct.id ? updatedProduct : product
+      )
+    );
+    closeModal();
   };
 
   useEffect(() => {
     fetch('https://dummyjson.com/products')
       .then(res => res.json())
-      .then((data: ApiResponse) => {
-        setData(data.products);//this updates the state, and instead an empty array as above, it recives the data.
-        console.log(data);
+      .then((data) => {
+        setData(data.products);
+        setError(null);
       })
-      .catch(err => console.error("Error fetching data:", err)).then(()=>setFetchingError(true));
+      .catch(err => {
+        setError("Failed to load products");
+      });
   }, []);
-  if (!fetchingError) return (
-    <div><p>loading</p></div>
-  )
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className='products'>
       {data.map((product) => (
@@ -63,19 +65,22 @@ const ProductGallery: React.FC = () => {//this is how to create a componnent in 
           />
         </div>
       ))}
+      
       {selectedProduct && (
         <Modal
-          onEdit={openEdit}
           isOpen={modalOpen}
           onClose={closeModal}
           product={selectedProduct}
+          onSave={handleSave}
         />
       )}
-      {selectedProduct&&<EditModal isOpen={true} onSave={()=>{}} product={selectedProduct}/>}
     </div>
   )
 }
+
 export default ProductGallery;
+//do the filter and the edit with onChange
 //git add .
 //git commit -m ""
 //git push origin main
+/**/ 
